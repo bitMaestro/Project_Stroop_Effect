@@ -1,0 +1,216 @@
+---
+title: "Stroop Test"
+author: "Tarique Hasheem"
+date: "12/20/2017"
+output: html_document
+---
+
+#### <font color="#00ccff">Background</font>
+
+<font color="grey">In psychology the Stroop effect is an interesting occurrence 
+that demonstrate reaction times of participants who are asked to say the color 
+of a word that's presented to them out loud.  For example <font color="red">red
+</font>, <font color="green">green</font> known as *congruent words* where the 
+color and words match. The opposite are *incongruent words* where the words are 
+not in the color they appear, for example <font color='orange'>blue</font> or 
+<font color='purple'>grey</font>.  The results are fascinating, reaction times 
+to incongruent words are slower than congruent words.  In our project we'll 
+investigate the Stroop effect using statistics to help uncover some of our 
+questions.
+
+#### <font color="#00ccff">Questions for Investigation</font>
+
+#### 1.  What is our independent variable?  What is our dependent variables?
+
+Our independent variable are the colors and our dependent variable are 
+reaction time.  
+
+#### 2.A.  What is an appropriate set of hypotheses?  
+
+μ = population mean
+
+There is no difference in population means of response time under incongruent 
+and congruent scenarios, which can be mathematically represented as 
+H0: μC = μI.
+
+There is a difference in population means of response time under incongruent and
+congruent scenarios, which can be mathematically represented as
+Ha: μC ≠ μI.
+
+##### 2.B.  What kind of statistical test do you expect to perform?
+
+The dependent t-tests compares the mean of two groups to determine whether 
+there is a statistically significant difference between them.  Dependent 
+test indicates that the same participant have been tested more than once.  
+T-test's are great when we don't know the population parameters.  We're 
+interested in a two-tailed test to simply test for the possibility that of 
+the relationship in both directions.  In other words we want to know if 
+reaction times are decreased or increased or no significant change in reaction 
+time. 
+
+#### 3.  Below are measures of centrality.
+
+```{r}
+
+df <- read.csv("stroopdata.csv")
+conMean <- round(mean(df$Congruent), 2)
+print(paste("Congruent Maean:", conMean))
+```
+
+
+```{r}
+inconMean <- round(mean(df$Incongruent), 2)
+print(paste("Incongruent Mean:", inconMean))
+```
+
+
+Below are the variance.
+
+```{r}
+conVar <- round(var(df$Congruent), 2)
+print(paste("Congruent Variance", conVar))
+```
+
+
+```{r}
+incVar <- round(var(df$Incongruent), 2)
+print(paste("Incongruent Variance", incVar))
+```
+
+Below are the standard deviation for Congruent.
+
+```{r}
+con_sd <- round(sd(df$Congruent), 2)
+print(paste("congruent standard deviation", con_sd))
+```
+
+Below is the standard deviation for In congruent.
+```{r}
+incon_sd <- round(sd(df$Incongruent), 2)
+print(paste("incongruent standard deviation", incon_sd))
+```
+
+#### 4. Visualizations
+
+Below we have tow box plots, one for our congruent data set and the second for 
+our incongruent dataset.  We can clearly see the outliers and median scores for
+both datasets.
+
+```{r echo=FALSE, warning=FALSE}
+
+library(ggplot2)
+library(dplyr)
+
+congruent_DataSet <- df$Congruent
+incongruent_DataSet <- df$Incongruent
+
+congruent_DataSet <- df$Congruent
+incongruent_DataSet <- df$Incongruent
+boxplot(congruent_DataSet, horizontal=TRUE)
+
+
+```
+
+```{r}
+boxplot(incongruent_DataSet, horizontal=TRUE)
+```
+
+
+
+#### 5. Statistical Test
+
+Dependent t-test
+
+Lets print the mean for both our congruent and incongruent datasets.
+
+```{r}
+print(paste("congruent mean", conMean))
+print(paste("incongruent mean", inconMean))
+```
+
+Our sample size is n = 24
+
+What is our point estimate for congruent mean minus incongruent mean?
+
+```{r}
+point_estimate = round((conMean - inconMean),2 )
+print(paste("Our point estimate is:", point_estimate))
+```
+
+Now we need the difference between the congruent and incongruent tests 
+results.  We can simply create a new column in our dataset with the results.  
+We'll print the results below.
+
+```{r}
+con <- congruent_DataSet
+incon <- incongruent_DataSet
+df["difference"] <- round((con - incon), 3)
+diff = df$difference
+print(paste(diff))
+```
+
+Now lets subtract the difference from our point estimate and square our results.
+We'll print the results below.
+
+```{r}
+df["diff_minus_pointEstimate_squared"] <- ((diff - point_estimate)^2)
+print(paste(round(df$diff_minus_pointEstimate_squared, 3)))
+```
+
+Now we will take the figures from the cell above (and our new column in
+dataframe) and divide it by n-1.
+
+```{r}
+a = sum(df$diff_minus_pointEstimate_squared)/(24-1)
+print(paste(round(a, 2)))
+```
+
+Let's now get the square root.
+
+```{r}
+b = sqrt(a)
+print(paste(round(b, 2)))
+```
+
+Our sample standard deviation of the differences is 4.86.  Now lets calculate
+the t-statistic.  
+
+```{r}
+s = (-7.97) / (4.86 / sqrt(24))
+print(paste("s =", round(s, 2)))
+```
+
+Is there a significant difference between congruent and incongruent response
+times at an alpha level of 0.05?  What are the t-critical values?
+
+Our t-critical values are +/- 2.069.  Since our t-statistic score (-8.03) is 
+greater than our t-critical score, we reject the null hypothesis.  In other
+words, there is a significant difference in response time for congruent and 
+incongruent words.
+
+We will now calculate the effect size measure with Cohen's d.
+
+```{r}
+cd <- -7.97 / -8.03
+print(paste("Cohens d", round(cd, 3)))
+```
+
+What is our confidence interval?
+
+```{r}
+t_critical <- 2.069
+ci_min <- (point_estimate) - (t_critical*(s/sqrt(24)))
+ci_max <- (point_estimate) + (t_critical*(s/sqrt(24)))
+print(paste("CI", round(ci_min, 2),",", round(ci_max, 2)))
+```
+
+The CI interval is telling us that response times are increased by 4.58 to 11.36
+longer with incongruent words.
+
+
+</font>
+
+***
+
+<br></br>
+<br></br>
