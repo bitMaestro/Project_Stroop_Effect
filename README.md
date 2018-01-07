@@ -1,4 +1,6 @@
 
+I Investigated the prosoper.com dataset using R Programming Language and exploratory data analysis techniques. Our objective was to explore both single and multivariate variables and explore relationships. What intrigued me and what I set out to understand if there were any relationships between borrowers who payoff their installments and those that are charged off. To my surprise borrowers with lengthier credit histories and greater than 60 trade lines tend to payoff their installments compared to their counterparts. The R Programing Language is rich in features and ggplot makes plotting such a breeze.
+
 #### Project Overview
 
 In this project, you will investigate a classic phenomenon from experimental psychology called the Stroop Effect. You will learn a little bit about the experiment, create a hypothesis regarding the outcome of the task, then go through the task yourself. You will then look at some data collected from others who have performed the same task and will compute some statistics describing the results. Finally, you will interpret your results in terms of your hypotheses.
