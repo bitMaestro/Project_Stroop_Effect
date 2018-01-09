@@ -1,5 +1,7 @@
 
-I Investigated the prosoper.com dataset using R Programming Language and exploratory data analysis techniques. Our objective was to explore both single and multivariate variables and explore relationships. What intrigued me and what I set out to understand if there were any relationships between borrowers who payoff their installments and those that are charged off. To my surprise borrowers with lengthier credit histories and greater than 60 trade lines tend to payoff their installments compared to their counterparts. The R Programing Language is rich in features and ggplot makes plotting such a breeze.
+#### The Stroop Effect
+
+Discovering the Stroop Effect through hypothesis testing with Inferential Statistics had me feeling like an investigator. The null hypothesis states there is no significant difference in a participants reaction times in saying out loud congruent words versus incongruent words. Otherwise, we reject the null hypothesis. I computed the t-statistic score of -8.03 and t-critical values of +/- 2.069 therefor rejecting the null hypothesis. I calculated the confidence interval levels to be -4.58 and -11.36. In other words participants took between 4.58 and 11.36 seconds longer to say out loud incongruent words.
 
 #### Project Overview
 
